@@ -7,11 +7,10 @@ HEADERS = {"Content-Type": "application/json"}
 
 @pytest.fixture
 def access_token():
-    """Фикстура для получения access token через авторизацию"""
     login_url = "https://stellarburgers.nomoreparties.site/api/auth/login"
     data = {
-        "email": "existinguser@yandex.ru",  # Существующий пользователь
-        "password": "password123"
+        "email": "alexeysokolov13987@yandex.ru",
+        "password": "dBAn]C"
     }
     response = requests.post(login_url, json=data, headers=HEADERS)
     token = response.json().get("accessToken")
@@ -20,7 +19,6 @@ def access_token():
 
 @pytest.fixture
 def user_data():
-    """Фикстура с данными пользователя для обновления"""
     return {
         "email": "newemail@yandex.ru",
         "name": "NewUserName"
@@ -29,7 +27,6 @@ def user_data():
 
 @pytest.fixture
 def existing_email_data():
-    """Фикстура с данными, где email уже существует"""
     return {
         "email": "existinguser@yandex.ru",
         "name": "DuplicateName"
@@ -37,10 +34,9 @@ def existing_email_data():
 
 
 def test_update_user_with_authorization(access_token, user_data):
-    """Тест обновления данных пользователя с авторизацией"""
     headers_with_auth = {
         "Content-Type": "application/json",
-        "Authorization": access_token  # Добавляем access token
+        "Authorization": Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yzg1YmU0OWVkMjgwMDAxYjQ5ZDk3ZSIsImlhdCI6MTczMTE3OTQyNywiZXhwIjoxNzMxMTgwNjI3fQ.54jH3htjS6-zogeqbUCvO1YbWw0BY3NsY2-TB90thNg
     }
     response = requests.patch(BASE_URL, json=user_data, headers=headers_with_auth)
 
@@ -53,7 +49,6 @@ def test_update_user_with_authorization(access_token, user_data):
 
 
 def test_update_user_without_authorization(user_data):
-    """Тест попытки обновления данных без авторизации"""
     response = requests.patch(BASE_URL, json=user_data, headers=HEADERS)
 
     # Проверяем, что запрос отклонён с кодом 401
@@ -64,10 +59,9 @@ def test_update_user_without_authorization(user_data):
 
 
 def test_update_user_with_existing_email(access_token, existing_email_data):
-    """Тест обновления с использованием email, который уже зарегистрирован"""
     headers_with_auth = {
         "Content-Type": "application/json",
-        "Authorization": access_token
+        "Authorization": Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2Yzg1YmU0OWVkMjgwMDAxYjQ5ZDk3ZSIsImlhdCI6MTczMTE3OTQyNywiZXhwIjoxNzMxMTgwNjI3fQ.54jH3htjS6-zogeqbUCvO1YbWw0BY3NsY2-TB90thNg
     }
     response = requests.patch(BASE_URL, json=existing_email_data, headers=headers_with_auth)
 

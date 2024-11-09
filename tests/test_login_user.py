@@ -6,22 +6,19 @@ HEADERS = {"Content-Type": "application/json"}
 
 @pytest.fixture
 def valid_user():
-    """Фикстура с данными существующего пользователя"""
     return {
-        "email": "existinguser@yandex.ru",  # Убедитесь, что этот пользователь зарегистрирован
-        "password": "password123"
+        "email": "alexeysokolov13987@yandex.ru",  # Убедитесь, что этот пользователь зарегистрирован
+        "password": "dBAn]C"
     }
 
 @pytest.fixture
 def invalid_user():
-    """Фикстура с неверными данными для логина"""
     return {
         "email": "wrongemail@yandex.ru",
         "password": "wrongpassword"
     }
 
 def test_login_existing_user(valid_user):
-    """Тест логина под существующим пользователем"""
     response = requests.post(BASE_URL, json=valid_user, headers=HEADERS)
 
     # Проверяем успешность авторизации
@@ -34,7 +31,6 @@ def test_login_existing_user(valid_user):
     assert response_data["user"]["email"] == valid_user["email"]
 
 def test_login_invalid_user(invalid_user):
-    """Тест логина с неверным email или паролем"""
     response = requests.post(BASE_URL, json=invalid_user, headers=HEADERS)
 
     # Проверяем, что запрос отклонён с кодом 401

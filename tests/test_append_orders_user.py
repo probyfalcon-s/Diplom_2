@@ -7,11 +7,10 @@ HEADERS = {"Content-Type": "application/json"}
 
 @pytest.fixture
 def access_token():
-    """Фикстура для получения access token через авторизацию"""
     login_url = "https://stellarburgers.nomoreparties.site/api/auth/login"
     data = {
-        "email": "existinguser@yandex.ru",  # Замените на существующего пользователя
-        "password": "password123"
+        "email": "alexeysokolov13987@yandex.ru",
+        "password": "dBAn]C"
     }
     response = requests.post(login_url, json=data, headers=HEADERS)
     token = response.json().get("accessToken")
@@ -19,7 +18,6 @@ def access_token():
 
 
 def test_get_orders_authorized_user(access_token):
-    """Тест получения заказов для авторизованного пользователя"""
     headers_with_auth = {
         "Content-Type": "application/json",
         "Authorization": access_token
@@ -33,7 +31,7 @@ def test_get_orders_authorized_user(access_token):
     # Проверяем, что ответ успешен и есть поле 'orders'
     assert response_data.get("success") is True
     assert "orders" in response_data
-    assert len(response_data["orders"]) <= 50  # Максимум 50 заказов
+    assert len(response_data["orders"]) <= 50
     assert "total" in response_data
     assert "totalToday" in response_data
 

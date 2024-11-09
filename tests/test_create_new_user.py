@@ -7,13 +7,11 @@ HEADERS = {"Content-Type": "application/json"}
 
 @pytest.fixture
 def unique_email():
-    """Генератор уникальных email для тестов"""
     import uuid
     return f"test-{uuid.uuid4()}@yandex.ru"
 
 
 def test_create_unique_user(unique_email):
-    """Тест создания уникального пользователя"""
     data = {
         "email": unique_email,
         "password": "password123",
@@ -27,11 +25,10 @@ def test_create_unique_user(unique_email):
 
 
 def test_create_existing_user():
-    """Тест создания пользователя, который уже зарегистрирован"""
     data = {
-        "email": "existinguser@yandex.ru",  # Убедитесь, что этот пользователь уже существует в системе
-        "password": "password123",
-        "name": "ExistingUser"
+        "email": "alexeysokolov13987@yandex.ru",  # Убедитесь, что этот пользователь уже существует в системе
+        "password": "dBAn]C",
+        "name": "Alex"
     }
     response = requests.post(BASE_URL, json=data, headers=HEADERS)
 
@@ -47,7 +44,6 @@ def test_create_existing_user():
     ("name", {"email": "test-no-name@yandex.ru", "password": "password123"})
 ])
 def test_create_user_with_missing_fields(missing_field, payload):
-    """Тест создания пользователя без одного из обязательных полей"""
     response = requests.post(BASE_URL, json=payload, headers=HEADERS)
 
     # Проверяем, что запрос отклоняется с кодом 403
